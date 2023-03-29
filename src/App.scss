@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+*:focus, *:active {outline: none;}
+a {
+  text-decoration: none;
+}
+button {
+  border: none;
+}
+
+.app {
+  min-height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+._container {
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+}
+.body {
+  position: relative;
+}
