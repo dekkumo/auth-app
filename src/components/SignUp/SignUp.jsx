@@ -1,28 +1,29 @@
 import React, {useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
-import './SignUp.scss'
+import cl from './SignUp.module.scss'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-import Inputs from '../Inputs/Inputs'
 import {setUser} from '../../store/slices/userSlice'
+import Form from '../Form/Form'
+import { doc, setDoc } from "firebase/firestore"; 
+import { db, auth } from '../../firebase'
 
 const Authorization = () => {
 
   const [email, setEmail] = useState([])
   const [password, setPassword] = useState([])
+  const [error, setError] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleRegister = (e) => {
-    console.log(email)
-    console.log(password)
     e.preventDefault()
     const auth = getAuth()
-    console.log(auth)
+    const { email, uid } = auth.currentUser;
+    
     createUserWithEmailAndPassword(auth, email, password)
       .then(({user}) => {
-        console.log(user)
         dispatch(setUser({
           email: user.email,
           token: user.accessToken,
@@ -30,32 +31,46 @@ const Authorization = () => {
         }))
         navigate('/mainpage', {replace: true}) 
       })
-      .catch(console.error)
+      .catch(setError(true))
+
+    setDoc(doc(db, "users", uid), {
+      email: email,
+      id: uid
+    });
   }
+
+  // const handleRegister = async (e) => {
+  //   e.preventDefault()
+  //   const auth = getAuth()
+
+  //   try {
+  //     const res = await createUserWithEmailAndPassword(auth, email, password)
+  //     const users = await dispatch(setUser({
+  //       email: res.user.email
+  //     }))
+  //   } catch(err) {
+  //     setError(true)
+  //   }
+  // }
+
+  let text = 'Sign Up'
 
   return (
     <div className='_container'>
-      <form className='form'>
-        <h2 className='title'>Sign Up</h2>
-        <Inputs 
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-        />
-        <div className="buttons-container">
-          <button 
-            className='button' 
-            onClick={(e) => handleRegister(e)}
-          >
-            Sign Up
-          </button>
-        </div>
-      </form>
-      <div className="signup-container">
-        <div className="signup-text">Уже зарегистрирован?</div>
-        <Link to='/login'><a className="signup-link">Войти</a></Link> 
+      <Form 
+        text={text}
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword} 
+        handleClickForm={handleRegister}
+        title={text}
+      />
+      <div className={cl.signup_container}>
+        <div className={cl.signup_text}>Уже зарегистрирован?</div>
+        <Link to='/login'><a className={cl.signup_link}>Войти</a></Link> 
       </div>
+      {error && <span>Что-то пошло не так</span>}
     </div>
   )
 }

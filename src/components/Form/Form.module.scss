@@ -1,31 +1,33 @@
 .form {
   position: absolute;
   width: 400px;
-  border: 1px solid rgba(51,31,102,1);
   border-radius: 10px;
   left: 50%;
   transform: translate(-50%, 50%);
   padding: 40px 40px;
+  background-color: #FA9884;
+  transition: all 0.3s ease 0s;
 }
 .title {
   text-align: center;
   font-size: 42px;
   margin-bottom: 15px;
   letter-spacing: 2px;
-  color: rgba(126,0,255,1);
+  color: #fff;
+  transition: all 0.3s ease 0s;
 }
-.inputs-container {
+.inputs_container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 25px;
 }
-.input-text {
+.input_text {
   padding: 10px;
-  border: 1px solid rgba(51,31,102,1);
+  border: none;
   border-radius: 5px;
 }
-.buttons-container {
+.buttons_container {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -35,22 +37,29 @@
   border-radius: 5px;
   font-weight: 600;
   letter-spacing: 2px;
-  background-color: rgba(126,0,255,1);
   color: #fff;
   border: none;
+  background-color: #E74646;
   transition: all 0.3s ease 0s;
 
   &:hover {
     cursor: pointer;
-    background-color: rgba(51,31,102,1);
+    background-color: #e75a5a;
   }
 }
-.signup-container {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  position: absolute;
-  left: 50%;
-  top: 468px;
-  transform: translate(-50%, 0);
+
+[class~="dark_wrapper"] {
+  .form {
+    background-color: #917FB3;
+  }
+  .title {
+    color: #2A2F4F;
+  }
+  .button {
+    background-color: #2A2F4F;
+
+    &:hover {
+      background-color: #373d66;
+    }
+  }
 }

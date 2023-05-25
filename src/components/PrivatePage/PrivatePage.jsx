@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/use-auth'
 
 
-const PrivatePage = ({children}) => {
+const PrivatePage = () => {
   const location = useLocation()
   const {isAuth} = useAuth()
 

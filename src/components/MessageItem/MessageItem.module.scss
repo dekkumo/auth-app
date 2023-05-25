@@ -1,0 +1,35 @@
+.message_body {
+}
+.item {
+  background-color: #FA9884;
+  color: #fff;
+  padding: 15px;
+  border-radius: 20px;
+  width: 15%;
+  margin-left: auto;
+  margin-bottom: 10px;
+  transition: all 0.3s ease 0s;
+}
+.other {
+  background-color: #E74646;
+  color: #fff;
+  margin-left: 310px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease 0s;
+}
+.name {
+  font-weight: 600;
+}
+.text {
+
+}
+
+[class~="dark_wrapper"] {
+  .item {
+    background-color: #FDE2F3;
+    color: #000;
+  }
+  .other {
+    background-color: #917FB3;
+  }
+}

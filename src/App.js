@@ -7,21 +7,31 @@ import MainPage from './components/MainPage/MainPage';
 import MyProfile from './components/MyProfile/MyProfile';
 import PrivatePage from './components/PrivatePage/PrivatePage';
 import AuthPage from './components/AuthPage/AuthPage';
+import Posts from './components/Posts/Posts';
+import Theme from './components/Theme/Theme';
+import { useSelector } from 'react-redux';
 
 function App() {
+
+  const theme = useSelector(state => state.theme)
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route element={<AuthPage />}>
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-        </Route>
-        <Route element={<PrivatePage />}>
-          <Route path='/mainpage' element={<MainPage />} />
-          <Route path='/profile' element={<MyProfile />} />
-        </Route>
-      </Routes>
+      <Theme />
+      <div className={theme === 'light' ? 'wrapper light_wrapper' : 'wrapper dark_wrapper'}>
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route element={<AuthPage />}>
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+          </Route>
+          <Route element={<PrivatePage />}>
+            <Route path='/mainpage' element={<MainPage />} />
+            <Route path='/profile' element={<MyProfile />} />
+            <Route path='/posts' element={<Posts />} />
+          </Route>
+        </Routes>
+      </div>
     </BrowserRouter>
   )
 }

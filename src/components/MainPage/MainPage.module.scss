@@ -1,0 +1,72 @@
+.navbar__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 40px;
+  height: 100vh;
+  width: 25%;
+  background-color: #FA9884;
+  z-index: 10;
+  transition: all 0.3s ease 0s;
+}
+.navbar__link {
+  font-size: 24px;
+  font-weight: 600;
+  color: #FFF;
+  transition: all 0.3s ease 0s;
+
+  &:hover {
+    cursor: pointer;
+    color: #FFE5CA;
+  }
+}
+.block_body {
+  position: absolute;
+  bottom: 30px;
+  width: 85%;
+}
+.form_message {
+  position: fixed;
+  bottom: 10px;
+  right: 0px;
+  width: 75%;
+}
+.input_message {
+  padding: 20px;
+  font-size: 18px;
+  width: 75%;
+  border-radius: 50px;
+  border: 1px solid #E74646;
+}
+.button_message {
+  background-color: transparent;
+  position: absolute;
+  right: 140px;
+  bottom: 8px;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+.message_box {
+  padding-bottom: 80px;
+}
+
+[class~="dark_wrapper"] {
+  .navbar__container {
+    background-color: #917FB3;
+  }
+  .input_message {
+    border: 1px solid #917FB3;
+  }
+  .navbar__link {
+    &:hover {
+      color: #E5BEEC;
+    }
+  }
+}
