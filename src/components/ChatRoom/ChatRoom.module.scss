@@ -1,0 +1,19 @@
+.container_chat {
+
+}
+.body_chat {
+  
+}
+.name_chat {
+  color: #FFFFFF;
+  padding: 10px 0;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: #705f91;
+  }
+}

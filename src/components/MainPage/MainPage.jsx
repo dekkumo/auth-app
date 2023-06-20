@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { removeUser } from '../../store/slices/userSlice'
@@ -6,6 +6,7 @@ import cl from './MainPage.module.scss'
 import { auth, db } from '../../firebase'
 import MessageItem from '../MessageItem/MessageItem'
 import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
+import ChatRoom from '../ChatRoom/ChatRoom'
 
 const MainPage = () => {
   const dispatch = useDispatch()
@@ -14,8 +15,10 @@ const MainPage = () => {
   const mesRef = useRef()
   const [messages, setMessages] = useState([])
   const scroll = useRef(null)
+  const [users, setUsers] = useState([])
 
   const messagesRef = collection(db, "messages");
+  const usersRef = collection(db, "users")
 
   useEffect(() => {
     const queryMessages = query(messagesRef, orderBy("createdAt"), limit(50))
@@ -25,6 +28,19 @@ const MainPage = () => {
         messages.push({...doc.data(), id: doc.id})
       })
       setMessages(messages)
+    })
+
+    return () => unsubscribe()
+  }, []);
+
+  useEffect(() => {
+    const queryUsers = query(usersRef, orderBy("createdAt"), limit(50))
+    const unsubscribe = onSnapshot(queryUsers, (snapshot) => {
+      let users = []
+      snapshot.forEach(doc => {
+        users.push({...doc.data(), id: doc.id})
+      })
+      setUsers(users)
     })
 
     return () => unsubscribe()
@@ -54,26 +70,19 @@ const MainPage = () => {
 
     mesRef.current.value = ''
     setMessage([...message, mesObj])
-
-    // scroll.current.scroll({ behavior: "smooth" })
   }
-
-  useLayoutEffect(() => {
-    if (scroll.current) {
-      scroll.current.scrollTop = scroll.current.scrollHeight;
-    }
-  });
 
   return (
     <>
       <div className={cl.navbar__container}>
         <Link to='/profile'><a className={cl.navbar__link}>Мой профиль</a></Link>
+        <ChatRoom />
         <Link to='/posts'><a className={cl.navbar__link}>Посты</a></Link>
         <Link to='/login'><a onClick={() => dispatch(removeUser())} className={cl.navbar__link}>Выйти</a></Link>
       </div>
       <div className='_container'>
         <div className={cl.block_body}>
-          <div ref={scroll} className={cl.message_box}>
+          <div className={cl.message_box}>
             {
               messages.map(message => (
                 <MessageItem
@@ -94,7 +103,6 @@ const MainPage = () => {
               <img src="icons/send.png" alt="" />
             </button>
           </form>
-          {/* <span ref={scroll}></span> */}
         </div>
       </div>
     </>
