@@ -43,7 +43,7 @@ const Login = () => {
       />
       <div className={cl.login_container}>
         <div className={cl.login_text}>Нет аккаунта?</div>
-        <Link to='/signup'><a className={cl.login_link}>Зарегистрироваться</a></Link>
+        <Link className={cl.login_link} to='/signup'>Зарегистрироваться</Link>
       </div>
     </div>
   )

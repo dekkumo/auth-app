@@ -46,7 +46,7 @@ const MyProfile = () => {
     <div className='_container'>
       <div className={cl.profile__body}>
         <div className={cl.profile__header}>
-          <Link to='/mainpage'><a className={cl.link_back}>Назад</a></Link>
+          <Link className={cl.link_back} to='/mainpage'>Назад</Link>
         </div>
         <h2 className={cl.info}>Информация обо мне</h2>
         <div className={cl.profile__main}>

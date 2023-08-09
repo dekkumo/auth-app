@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
     theme: themeReducer,
-    [postsApi.reducerPath]: postsApi.reducer
+    // [postsApi.reducerPath]: postsApi.reducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postsApi.middleware)
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postsApi.middleware)
 })

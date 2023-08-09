@@ -5,8 +5,9 @@ import { removeUser } from '../../store/slices/userSlice'
 import cl from './MainPage.module.scss'
 import { auth, db } from '../../firebase'
 import MessageItem from '../MessageItem/MessageItem'
-import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import ChatRoom from '../ChatRoom/ChatRoom'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const MainPage = () => {
   const dispatch = useDispatch()
@@ -14,7 +15,7 @@ const MainPage = () => {
   const [message, setMessage] = useState([])
   const mesRef = useRef()
   const [messages, setMessages] = useState([])
-  const scroll = useRef(null)
+  // const scroll = useRef(null)
   const [users, setUsers] = useState([])
 
   const messagesRef = collection(db, "messages");
@@ -32,6 +33,31 @@ const MainPage = () => {
 
     return () => unsubscribe()
   }, []);
+
+  // useEffect(() => {
+  //   const getAllUsers = async () => {
+  //     try {
+  //       const snapshot = await getDocs(usersRef)
+  
+  //       // const users = []
+  
+  //       // snapshot.forEach((doc) => {
+  //       //   users.push({ ...doc.data(), id: doc.id });
+  //       // })
+  //       // setUsers(users)
+  //       // console.log(users)
+  //       // return users 
+
+  //       const usersData = snapshot.docs.map((doc) => doc.data());
+  //       setUsers(usersData)
+  
+  //     } catch(error) {
+  //       console.error('Error fetching users:', error)
+  //     }
+  //   }
+  
+  //   getAllUsers()
+  // }, [])
 
   useEffect(() => {
     const queryUsers = query(usersRef, orderBy("createdAt"), limit(50))
@@ -75,10 +101,19 @@ const MainPage = () => {
   return (
     <>
       <div className={cl.navbar__container}>
-        <Link to='/profile'><a className={cl.navbar__link}>Мой профиль</a></Link>
-        <ChatRoom />
-        <Link to='/posts'><a className={cl.navbar__link}>Посты</a></Link>
-        <Link to='/login'><a onClick={() => dispatch(removeUser())} className={cl.navbar__link}>Выйти</a></Link>
+        <Link className={cl.navbar__link} to='/profile'>Мой профиль</Link>
+        <ChatRoom users={users} />
+        <Link className={cl.navbar__link} to='/posts'>Посты</Link>
+        <Link className={cl.navbar__link} onClick={() => dispatch(removeUser())} to='/login'>Выйти</Link>
+
+        {/* <button style={{fontSize:20}} onClick={getAllUsers}>получить</button> */}
+
+        {/* <div>
+          {users.map(el => (
+            {el}
+          ))}
+        </div> */}
+
       </div>
       <div className='_container'>
         <div className={cl.block_body}>

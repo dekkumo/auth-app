@@ -47,7 +47,7 @@ const Authorization = () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
 
-      await dispatch(setUser({
+      dispatch(setUser({
         email: email,
         id: auth.currentUser.uid
       }))
@@ -81,7 +81,7 @@ const Authorization = () => {
       />
       <div className={cl.signup_container}>
         <div className={cl.signup_text}>Уже зарегистрирован?</div>
-        <Link to='/login'><a className={cl.signup_link}>Войти</a></Link> 
+        <Link className={cl.signup_link} to='/login'>Войти</Link> 
       </div>
       {error && <span>Что-то пошло не так</span>}
     </div>
