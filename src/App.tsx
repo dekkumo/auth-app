@@ -9,11 +9,11 @@ import PrivatePage from './components/PrivatePage/PrivatePage';
 import AuthPage from './components/AuthPage/AuthPage';
 import Posts from './components/Posts/Posts';
 import Theme from './components/Theme/Theme';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from './hook';
 
-function App() {
+const App: React.FC = () => {
 
-  const theme = useSelector(state => state.theme)
+  const theme = useAppSelector(state => state.theme)
 
   return (
     <BrowserRouter>

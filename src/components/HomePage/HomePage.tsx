@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cl from './HomePage.module.scss'
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
 
   return (
     <div className="_container">

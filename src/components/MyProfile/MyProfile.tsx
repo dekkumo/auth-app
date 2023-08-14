@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom'
 import {useAuth} from '../../hooks/use-auth'
 import cl from './MyProfile.module.scss'
 
-const MyProfile = () => {
+const MyProfile: React.FC = () => {
   const {isAuth, email} = useAuth()
-  const [name, setName] = useState('')
-  const inputRef = useRef()
-  const [image, setImage] = useState()
-  const [imageUrl, setImageUrl] = useState()
-  const filePicker = useRef(null)
+  const [name, setName] = useState<string>('')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [image, setImage] = useState<File>()
+  const [imageUrl, setImageUrl] = useState<string | any>('')
+  const filePicker = useRef<HTMLInputElement>(null)
 
   const saveName = () => {
-    const nameValue = inputRef.current.value
+    const nameValue = inputRef.current!.value
     setName(nameValue)
   }
 
@@ -22,15 +22,16 @@ const MyProfile = () => {
     setImageUrl(fileReader.result)
   }
 
-  const saveImg = (e) => {
-    // console.log(e.target.files[0])
-    let file = e.target.files[0]
-    setImage(file)
-    fileReader.readAsDataURL(file)
+  const saveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files) {
+      const file = e.target.files[0]
+      setImage(file)
+      fileReader.readAsDataURL(file)
+    }
   }
 
   const handlePick = () => {
-    filePicker.current.click() 
+    filePicker.current?.click() 
   }
 
   useEffect(() => {

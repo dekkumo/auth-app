@@ -8,15 +8,17 @@ import MessageItem from '../MessageItem/MessageItem'
 import { addDoc, collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import ChatRoom from '../ChatRoom/ChatRoom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { Message } from '../../types/typeMessage'
+import { User } from '../../types/typeUser'
 
-const MainPage = () => {
+const MainPage: React.FC = () => {
   const dispatch = useDispatch()
 
-  const [message, setMessage] = useState([])
-  const mesRef = useRef()
-  const [messages, setMessages] = useState([])
+  const [message, setMessage] = useState<Message[]>([])
+  const mesRef = useRef<HTMLInputElement>(null)
+  const [messages, setMessages] = useState<Message[]>([])
   // const scroll = useRef(null)
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<User[]>([])
 
   const messagesRef = collection(db, "messages");
   const usersRef = collection(db, "users")
@@ -24,7 +26,7 @@ const MainPage = () => {
   useEffect(() => {
     const queryMessages = query(messagesRef, orderBy("createdAt"), limit(50))
     const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-      let messages = []
+      let messages: any[] = []
       snapshot.forEach(doc => {
         messages.push({...doc.data(), id: doc.id})
       })
@@ -62,7 +64,7 @@ const MainPage = () => {
   useEffect(() => {
     const queryUsers = query(usersRef, orderBy("createdAt"), limit(50))
     const unsubscribe = onSnapshot(queryUsers, (snapshot) => {
-      let users = []
+      let users: any[] = []
       snapshot.forEach(doc => {
         users.push({...doc.data(), id: doc.id})
       })
@@ -73,7 +75,7 @@ const MainPage = () => {
   }, []);
 
 
-  const sendMessage = async (e) => {
+  const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     message.forEach(el => {
@@ -83,10 +85,10 @@ const MainPage = () => {
       }
     })
 
-    const { email, uid } = auth.currentUser;
+    const { email, uid }: any = auth.currentUser;
 
     const mesObj = {
-      text: mesRef.current.value,
+      text: mesRef.current!.value,
       name: email,
       mesId: uid,
       createdAt: serverTimestamp(),
@@ -94,7 +96,9 @@ const MainPage = () => {
 
     await addDoc(messagesRef, mesObj)
 
-    mesRef.current.value = ''
+    if (mesRef.current) {
+      mesRef.current.value = ''
+    }
     setMessage([...message, mesObj])
   }
 
@@ -121,7 +125,7 @@ const MainPage = () => {
             {
               messages.map(message => (
                 <MessageItem
-                  // key={message.mesId}
+                  key={Math.random()}
                   message={message}
                 />
               ))

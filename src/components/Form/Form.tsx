@@ -1,7 +1,17 @@
 import React from 'react'
 import cl from './Form.module.scss'
 
-const Form = ({text, email, setEmail, password, setPassword, handleClickForm, title}) => {
+interface FormProps {
+  text: string, 
+  email: string, 
+  setEmail: (str: string) => void, 
+  password: string, 
+  setPassword: (str: string) => void,
+  handleClickForm: (e: React.MouseEvent<HTMLButtonElement>) => void, 
+  title: string
+}
+
+const Form: React.FC<FormProps> = ({text, email, setEmail, password, setPassword, handleClickForm, title}) => {
 
   return (
     <form className={cl.form}>
@@ -21,7 +31,7 @@ const Form = ({text, email, setEmail, password, setPassword, handleClickForm, ti
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-    </div>
+      </div>
       <div className={cl.buttons_container}>
         <button 
           onClick={(e) => handleClickForm(e)} 

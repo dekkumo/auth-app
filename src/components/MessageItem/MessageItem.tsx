@@ -3,13 +3,19 @@ import cl from './MessageItem.module.scss'
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import cn from 'classnames'
+import { Message } from '../../types/typeMessage';
 
-const MessageItem = ({message}) => {
+interface MessageItemProps {
+  message: Message
+}
+
+const MessageItem: React.FC<MessageItemProps> = ({message}) => {
+  // console.log(message)
 
   const [user] = useAuthState(auth);
 
   return (
-    <div className={user.uid === message.mesId ? cl.item : cn(cl.item, cl.other)}>
+    <div className={user!.uid === message.mesId ? cl.item : cn(cl.item, cl.other)}>
       <div className={cl.name}>{message.name}</div>
       <div className={cl.text}>{message.text}</div>
     </div>

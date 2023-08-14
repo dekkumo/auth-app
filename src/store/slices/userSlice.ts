@@ -1,20 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export type MyUser = {
+  email: string,
+  token: null
+  id: null
+}
+
+const initialState: MyUser = {
+  email: JSON.parse(localStorage.getItem('email') as string),
+  token: null,
+  id: null
+}
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    email: JSON.parse(localStorage.getItem('email')),
-    token: null,
-    id: null
-  },
+  initialState,
   reducers: {
     setUser(state, action) {
       state.email = action.payload.email
       state.token = action.payload.token
       state.id = action.payload.id
     },
-    removeUser(state, action) {
-      state.email = null
+    removeUser(state) {
+      state.email = ''
       state.token = null
       state.id = null
     }

@@ -1,23 +1,23 @@
 import React, {useState} from 'react'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { useDispatch, useSelector } from 'react-redux'
 import {setUser} from '../../store/slices/userSlice'
 import {useNavigate, Link} from 'react-router-dom'
 import cl from './Login.module.scss'
 import Form from '../Form/Form'
+import { useAppDispatch } from '../../hook'
 
-const Login = () => {
-  const [email, setEmail] = useState([])
-  const [password, setPassword] = useState([])
+const Login: React.FC = () => {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password)
-      .then(({user}) => {
+      .then(({user}: {user: any}) => {
         dispatch(setUser({
           email: user.email,
           token: user.accessToken,

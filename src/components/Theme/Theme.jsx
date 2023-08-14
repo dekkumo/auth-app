@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleTheme } from '../../store/slices/themeSlice'
 import cn from 'classnames'
 
-const Theme = ({className}) => {
+const Theme = () => {
 
   const theme = useSelector(state => state.theme)
   const dispatch = useDispatch()
@@ -23,7 +23,6 @@ const Theme = ({className}) => {
     <div 
       onClick={handleChange}
       className={cn(
-    		className,
     		cl.root,
     		theme === 'dark' ? cl.dark : cl.light)}
     >

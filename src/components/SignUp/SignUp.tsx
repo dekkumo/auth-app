@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { useDispatch } from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 import cl from './SignUp.module.scss'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
@@ -7,14 +6,15 @@ import {setUser} from '../../store/slices/userSlice'
 import Form from '../Form/Form'
 import { doc, setDoc } from "firebase/firestore"; 
 import { db, auth } from '../../firebase'
+import { useAppDispatch } from '../../hook'
 
-const Authorization = () => {
+const Authorization: React.FC = () => {
 
-  const [email, setEmail] = useState([])
-  const [password, setPassword] = useState([])
-  const [error, setError] = useState(false)
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [error, setError] = useState<boolean>(false)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   // const handleRegister = (e) => {
@@ -39,25 +39,26 @@ const Authorization = () => {
   //   });
   // }
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
     // const {email, uid} = auth.currentUser
+    // console.log(uid)
 
     try {
       await createUserWithEmailAndPassword(auth, email, password)
 
       dispatch(setUser({
         email: email,
-        id: auth.currentUser.uid
+        id: auth.currentUser?.uid
       }))
 
-      await setDoc(doc(db, "users", auth.currentUser.uid), {
+      await setDoc(doc(db, "users", auth.currentUser!.uid), {
         email: email,
-        id: auth.currentUser.uid
+        id: auth.currentUser!.uid
       });
 
-      await setDoc(doc(db, "userChats", auth.currentUser.uid), {})
+      await setDoc(doc(db, "userChats", auth.currentUser!.uid), {})
 
     } catch(err) {
       setError(true)
